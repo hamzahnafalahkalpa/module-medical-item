@@ -1,15 +1,20 @@
 <?php
 
-namespace Gii\ModuleMedicalItem\Concerns;
+namespace Hanafalah\ModuleMedicalItem\Concerns;
 
-trait HasMedicalItem{
-    public static function bootHasMedicalItem(){
-        static::created(function($query){
+trait HasMedicalItem
+{
+    public static function bootHasMedicalItem()
+    {
+        static::created(function ($query) {
             $query->medicalItem()->firstOrCreate([
                 'name' => $query->name
             ]);
         });
     }
 
-    public function medicalItem(){return $this->morphOneModel('MedicalItem','reference');}
+    public function medicalItem()
+    {
+        return $this->morphOneModel('MedicalItem', 'reference');
+    }
 }

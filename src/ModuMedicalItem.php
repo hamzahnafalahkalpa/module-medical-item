@@ -1,9 +1,7 @@
 <?php
 
-namespace Gii\ModuleMedicalItem;
+namespace Hanafalah\ModuleMedicalItem;
 
-use Zahzah\LaravelSupport\Supports\PackageManagement;
+use Hanafalah\LaravelSupport\Supports\PackageManagement;
 
-class ModuleMedicalItem extends PackageManagement{
-
-}
+class ModuleMedicalItem extends PackageManagement {}

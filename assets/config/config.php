@@ -1,6 +1,6 @@
 <?php
 
-use Gii\ModuleMedicalItem\{
+use Hanafalah\ModuleMedicalItem\{
     Models as ModuleMedicalItem,
     Contracts
 };

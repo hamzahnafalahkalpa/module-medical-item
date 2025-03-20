@@ -1,9 +1,7 @@
 <?php
 
-namespace Gii\ModuleMedicalItem\Contracts;
+namespace Hanafalah\ModuleMedicalItem\Contracts;
 
-use Zahzah\LaravelSupport\Contracts\DataManagement;
+use Hanafalah\LaravelSupport\Contracts\DataManagement;
 
-interface ModuleMedicalItem extends DataManagement {
-
-}
+interface ModuleMedicalItem extends DataManagement {}

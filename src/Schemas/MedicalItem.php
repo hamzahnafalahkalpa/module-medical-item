@@ -1,22 +1,24 @@
 <?php
 
-namespace Gii\ModuleMedicalItem\Schemas;
+namespace Hanafalah\ModuleMedicalItem\Schemas;
 
 use COM;
-use Gii\ModuleItem\Schemas\Item as SchemaItem;
-use Gii\ModuleItem\Contracts as ItemContracts;
-use Gii\ModuleMedicalItem\Contracts;
-use Gii\ModuleMedicalItem\Resources\MedicalItem\{
-    ShowMedicalItem, ViewMedicalItem
+use Hanafalah\ModuleItem\Schemas\Item as SchemaItem;
+use Hanafalah\ModuleItem\Contracts as ItemContracts;
+use Hanafalah\ModuleMedicalItem\Contracts;
+use Hanafalah\ModuleMedicalItem\Resources\MedicalItem\{
+    ShowMedicalItem,
+    ViewMedicalItem
 };
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class MedicalItem extends SchemaItem implements Contracts\MedicalItem{
-    protected array $__guard   = ['id','reference_type','reference_id'];
-    protected array $__add     = ['is_pom','status'];
+class MedicalItem extends SchemaItem implements Contracts\MedicalItem
+{
+    protected array $__guard   = ['id', 'reference_type', 'reference_id'];
+    protected array $__add     = ['is_pom', 'status'];
     protected string $__entity = 'MedicalItem';
     public static $medical_item_model;
 
@@ -28,62 +30,70 @@ class MedicalItem extends SchemaItem implements Contracts\MedicalItem{
     protected array $__cache = [
         'index' => [
             'name'     => 'medical-item',
-            'tags'     => ['medical-item','medical-item-index'],
-            'duration' => 60*24
+            'tags'     => ['medical-item', 'medical-item-index'],
+            'duration' => 60 * 24
         ],
         'show' => [
             'name'     => 'medical-item',
-            'tags'     => ['medical-item','medical-item-show'],
-            'duration' => 60*24
+            'tags'     => ['medical-item', 'medical-item-show'],
+            'duration' => 60 * 24
         ]
     ];
 
-    protected function showUsingRelation(){
+    protected function showUsingRelation()
+    {
         return [
-            'item' => function($query){
-                $query->with(['compositions','itemStock' => function($query){
+            'item' => function ($query) {
+                $query->with(['compositions', 'itemStock' => function ($query) {
                     $query->whereNull('funding_id')
-                          ->with([
-                            'childs.stockBatches.batch','stockBatches.batch'
-                          ]);
+                        ->with([
+                            'childs.stockBatches.batch',
+                            'stockBatches.batch'
+                        ]);
                 }]);
             },
-            'reference' => function($query){
+            'reference' => function ($query) {
                 $query->morphWith([
                     $this->MedicineModelInstance() => [
-                        'dosageForm','usageLocation','therapeuticClass',
-                        'usageRoute','packageCategory','sellingCategory'
+                        'dosageForm',
+                        'usageLocation',
+                        'therapeuticClass',
+                        'usageRoute',
+                        'packageCategory',
+                        'sellingCategory'
                     ],
-                    $this->MedicToolModelInstance() => [
-
-                    ]
+                    $this->MedicToolModelInstance() => []
                 ]);
             }
         ];
     }
 
-    private function localAddSuffixCache(mixed $suffix): void{
-        $this->addSuffixCache($this->__cache['index'],"medical-item-index",$suffix);
+    private function localAddSuffixCache(mixed $suffix): void
+    {
+        $this->addSuffixCache($this->__cache['index'], "medical-item-index", $suffix);
     }
 
-    public function commonMedicalItem(mixed $morphs,mixed $conditionals = null): Builder{
+    public function commonMedicalItem(mixed $morphs, mixed $conditionals = null): Builder
+    {
         $morphs = $this->mustArray($morphs);
-        return $this->medicalItem($conditionals)->whereIn('reference_type',$morphs)
-                        ->orderBy('name','asc');
+        return $this->medicalItem($conditionals)->whereIn('reference_type', $morphs)
+            ->orderBy('name', 'asc');
     }
 
-    public function getMedicalItem(): mixed{
+    public function getMedicalItem(): mixed
+    {
         return static::$medical_item_model;
     }
 
-    public function prepareStoreMedicalItem(? array $attributes = null): Model{
+    public function prepareStoreMedicalItem(?array $attributes = null): Model
+    {
         $attributes ??= request()->all();
-        if(isset($attributes['id'])){
+        if (isset($attributes['id'])) {
             $medicalItem = $this->medicalItem()->with('reference')->find($attributes['id']);
             $reference = $medicalItem->reference;
         }
 
-        if (isset($attributes['medicine'])){
+        if (isset($attributes['medicine'])) {
             if (isset($reference)) $attributes['medicine']['id'] = $reference->getKey();
             $attributes['medicine']['name'] = $attributes['name'];
             $medicine_schema = $this->schemaContract('medicine');
@@ -91,7 +101,7 @@ class MedicalItem extends SchemaItem implements Contracts\MedicalItem{
             $reference->load('medicalItem');
         }
 
-        if (isset($attributes['medictool'])){
+        if (isset($attributes['medictool'])) {
             if (isset($reference)) $attributes['medictool']['id'] = $reference->getKey();
             $attributes['medictool']['name'] = $attributes['name'];
             $medictool_schema = $this->schemaContract('medic_tool');
@@ -103,7 +113,7 @@ class MedicalItem extends SchemaItem implements Contracts\MedicalItem{
         $medicalItem->name = $attributes['name'];
         $medicalItem->is_pom = $attributes['is_pom'] ?? false;
         $medicalItem->registration_no = $attributes['registration_no'] ?? null;
-        if (!isset($attributes['id'])){
+        if (!isset($attributes['id'])) {
             $medicalItem->reference_id   = $reference->getKey();
             $medicalItem->reference_type = $reference->getMorphClass();
         }
@@ -117,25 +127,27 @@ class MedicalItem extends SchemaItem implements Contracts\MedicalItem{
         return $medicalItem;
     }
 
-    public function storeMedicalItem(): array{
-        return $this->transaction(function() {
+    public function storeMedicalItem(): array
+    {
+        return $this->transaction(function () {
             return $this->showMedicalItem($this->prepareStoreMedicalItem());
         });
     }
 
-    public function prepareShowMedicalItem(? Model $model = null): Model{
+    public function prepareShowMedicalItem(?Model $model = null): Model
+    {
         $this->booting();
         $model ??= $this->getMedicalItem();
 
-        if (!isset($model)){
+        if (!isset($model)) {
             $id = request()->id;
-            if (!request()->has('id')) throw new \Exception('No id provided',422);
+            if (!request()->has('id')) throw new \Exception('No id provided', 422);
 
-            $this->addSuffixCache($this->__cache['show'],'medical-item-show',$id);
-            $model = $this->cacheWhen(!$this->isSearch(),$this->__cache['show'],function() use ($id) {
+            $this->addSuffixCache($this->__cache['show'], 'medical-item-show', $id);
+            $model = $this->cacheWhen(!$this->isSearch(), $this->__cache['show'], function () use ($id) {
                 return $this->MedicalItemModel()->with($this->showUsingRelation())->find($id);
             });
-        }else{
+        } else {
             $model->load($this->showUsingRelation());
         }
         static::$medical_item_model = $model;
@@ -144,55 +156,62 @@ class MedicalItem extends SchemaItem implements Contracts\MedicalItem{
     }
 
 
-    public function showMedicalItem(? Model $model = null): array{
-        return $this->transforming($this->__resources['show'],function() use ($model){
+    public function showMedicalItem(?Model $model = null): array
+    {
+        return $this->transforming($this->__resources['show'], function () use ($model) {
             return $this->prepareShowMedicalItem($model);
         });
     }
 
-    public function prepareViewMedicalItemPaginate(mixed $cache_reference_type,? array $morphs = null, int $perPage = 50, array $columns = ['*'], string $pageName = 'page',? int $page = null,? int $total = null): LengthAwarePaginator{
+    public function prepareViewMedicalItemPaginate(mixed $cache_reference_type, ?array $morphs = null, int $perPage = 50, array $columns = ['*'], string $pageName = 'page', ?int $page = null, ?int $total = null): LengthAwarePaginator
+    {
         $morphs ??= $cache_reference_type;
         $paginate_options = compact('perPage', 'columns', 'pageName', 'page', 'total');
-        if (isset(request()->warehouse_id)){
-            $cache_reference_type .= '-'.request()->warehouse_id;
+        if (isset(request()->warehouse_id)) {
+            $cache_reference_type .= '-' . request()->warehouse_id;
         }
         $cache_reference_type .= '-paginate';
         $this->localAddSuffixCache($cache_reference_type);
-        return $this->cacheWhen(!$this->isSearch(),$this->__cache['index'],function() use ($morphs, $paginate_options){
+        return $this->cacheWhen(!$this->isSearch(), $this->__cache['index'], function () use ($morphs, $paginate_options) {
             return $this->commonMedicalItem($morphs)
-                        ->when(isset(request()->warehouse_id),function($query){
-                            $query->whereHas('item.itemStock',function($query){
-                                $query->whereNull('funding_id')
-                                      ->where('warehouse_id',request()->warehouse_id)
-                                      ->where('warehouse_type',request()->warehouse_type);
-                            });
-                        })->paginate(...$this->arrayValues($paginate_options));
+                ->when(isset(request()->warehouse_id), function ($query) {
+                    $query->whereHas('item.itemStock', function ($query) {
+                        $query->whereNull('funding_id')
+                            ->where('warehouse_id', request()->warehouse_id)
+                            ->where('warehouse_type', request()->warehouse_type);
+                    });
+                })->paginate(...$this->arrayValues($paginate_options));
         });
     }
 
-    public function viewMedicalItemPaginate(mixed $reference_type, ? array $morphs = null, int $perPage = 50, array $columns = ['*'], string $pageName = 'page',? int $page = null,? int $total = null): array{
+    public function viewMedicalItemPaginate(mixed $reference_type, ?array $morphs = null, int $perPage = 50, array $columns = ['*'], string $pageName = 'page', ?int $page = null, ?int $total = null): array
+    {
         $paginate_options = compact('perPage', 'columns', 'pageName', 'page', 'total');
-        return $this->transforming($this->__resources['view'],function() use ($reference_type, $morphs, $paginate_options){
+        return $this->transforming($this->__resources['view'], function () use ($reference_type, $morphs, $paginate_options) {
             return $this->prepareViewMedicalItemPaginate($reference_type, $morphs, ...$this->arrayValues($paginate_options));
         });
     }
 
-    public function prepareViewMedicalItemList(mixed $cache_reference_type,? array $morphs = null): Collection{
+    public function prepareViewMedicalItemList(mixed $cache_reference_type, ?array $morphs = null): Collection
+    {
         $morphs ??= $cache_reference_type;
         $this->localAddSuffixCache($cache_reference_type);
-        return $this->cacheWhen(!$this->isSearch(),$this->__cache['index'],fn () => $this->commonMedicalItem($morphs)->get());
+        return $this->cacheWhen(!$this->isSearch(), $this->__cache['index'], fn() => $this->commonMedicalItem($morphs)->get());
     }
 
-    public function viewMedicalItemList(mixed $cache_reference_type, ? array $morphs = null): array{
-        return $this->transforming($this->__resources['view'],fn () => $this->prepareViewMedicalItemList($cache_reference_type, $morphs));
+    public function viewMedicalItemList(mixed $cache_reference_type, ?array $morphs = null): array
+    {
+        return $this->transforming($this->__resources['view'], fn() => $this->prepareViewMedicalItemList($cache_reference_type, $morphs));
     }
 
-    public function medicalItem(mixed $conditionals=null): Builder{
+    public function medicalItem(mixed $conditionals = null): Builder
+    {
         $this->booting();
         return $this->MedicalItemModel()->with([
-            'item.itemStock', 'reference' => function($query){
+            'item.itemStock',
+            'reference' => function ($query) {
                 $query->morphWith([
-                   $this->MedicineModelInstance() => ['dosageForm','sellingCategory'],
+                    $this->MedicineModelInstance() => ['dosageForm', 'sellingCategory'],
                 ]);
             }
         ])->withParameters()->conditionals($conditionals);

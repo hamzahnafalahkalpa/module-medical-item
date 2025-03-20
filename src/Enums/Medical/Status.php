@@ -1,6 +1,6 @@
 <?php
 
-namespace Gii\ModuleMedicalItem\Enums\Medical;
+namespace Hanafalah\ModuleMedicalItem\Enums\Medical;
 
 enum Status: string
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Gii\ModuleMedicalItem\Resources\Medicine;
+namespace Hanafalah\ModuleMedicalItem\Resources\Medicine;
 
 use Illuminate\Http\Request;
-use Zahzah\LaravelSupport\Resources\ApiResource;
+use Hanafalah\LaravelSupport\Resources\ApiResource;
 
 class ViewMedicine extends ApiResource
 {
@@ -18,10 +18,10 @@ class ViewMedicine extends ApiResource
         $arr = [
             'id'      => $this->id,
             'name'    => $this->name,
-            'dosage_form' => $this->relationValidation('dosageForm',function(){
+            'dosage_form' => $this->relationValidation('dosageForm', function () {
                 return $this->dosageForm->toViewApi();
             }),
-            'selling_category' => $this->relationValidation('sellingCategory',function(){
+            'selling_category' => $this->relationValidation('sellingCategory', function () {
                 return $this->sellingCategory->toViewApi();
             }),
             'status'  => $this->status
@@ -30,7 +30,7 @@ class ViewMedicine extends ApiResource
         foreach ($props as $key => $prop) {
             $arr[$key] = $prop;
         }
-        
+
         return $arr;
     }
 }

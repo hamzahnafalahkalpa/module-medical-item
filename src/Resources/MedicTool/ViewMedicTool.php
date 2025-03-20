@@ -1,9 +1,9 @@
 <?php
 
-namespace Gii\ModuleMedicalItem\Resources\MedicTool;
+namespace Hanafalah\ModuleMedicalItem\Resources\MedicTool;
 
 use Illuminate\Http\Request;
-use Zahzah\LaravelSupport\Resources\ApiResource;
+use Hanafalah\LaravelSupport\Resources\ApiResource;
 
 class ViewMedicTool extends ApiResource
 {
@@ -24,7 +24,7 @@ class ViewMedicTool extends ApiResource
         foreach ($props as $key => $prop) {
             $arr[$key] = $prop;
         }
-        
+
         return $arr;
     }
 }

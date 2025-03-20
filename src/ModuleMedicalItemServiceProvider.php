@@ -1,8 +1,8 @@
 <?php
 
-namespace Gii\ModuleMedicalItem;
+namespace Hanafalah\ModuleMedicalItem;
 
-use Zahzah\LaravelSupport\Providers\BaseServiceProvider;
+use Hanafalah\LaravelSupport\Providers\BaseServiceProvider;
 
 class ModuleMedicalItemServiceProvider extends BaseServiceProvider
 {
@@ -14,25 +14,27 @@ class ModuleMedicalItemServiceProvider extends BaseServiceProvider
     public function register()
     {
         $this->registerMainClass(ModuleMedicalItem::class)
-             ->registerCommandService(Providers\CommandServiceProvider::class)
-             ->registers([
+            ->registerCommandService(Providers\CommandServiceProvider::class)
+            ->registers([
                 '*',
-                'Services'  => function(){
+                'Services'  => function () {
                     $this->binds([
                         Contracts\ModuleMedicalItem::class   => ModuleMedicalItem::class,
                         Contracts\MedicalItem::class         => Schemas\MedicalItem::class,
                         Contracts\Medicine::class            => Schemas\Medicine::class,
-                        Contracts\MedicTool::class           => Schemas\MedicTool::class                        
+                        Contracts\MedicTool::class           => Schemas\MedicTool::class
                     ]);
                 },
-             ]);
+            ]);
     }
 
-    protected function dir(): string{
-        return __DIR__.'/';
+    protected function dir(): string
+    {
+        return __DIR__ . '/';
     }
 
-    protected function migrationPath(string $path = ''): string{
+    protected function migrationPath(string $path = ''): string
+    {
         return database_path($path);
     }
 }

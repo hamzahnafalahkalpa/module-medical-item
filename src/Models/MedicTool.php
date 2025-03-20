@@ -1,15 +1,16 @@
 <?php
 
-namespace Gii\ModuleMedicalItem\Models;
+namespace Hanafalah\ModuleMedicalItem\Models;
 
-use Gii\ModuleMedicalItem\Concerns\HasMedicalItem;
-use Gii\ModuleMedicalItem\Enums\Medical\Status;
-use Gii\ModuleMedicalItem\Resources\MedicTool\{
-    ViewMedicTool, ShowMedicTool
+use Hanafalah\ModuleMedicalItem\Concerns\HasMedicalItem;
+use Hanafalah\ModuleMedicalItem\Enums\Medical\Status;
+use Hanafalah\ModuleMedicalItem\Resources\MedicTool\{
+    ViewMedicTool,
+    ShowMedicTool
 };
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Zahzah\LaravelHasProps\Concerns\HasProps;
-use Zahzah\LaravelSupport\Models\BaseModel;
+use Hanafalah\LaravelHasProps\Concerns\HasProps;
+use Hanafalah\LaravelSupport\Models\BaseModel;
 
 class MedicTool extends BaseModel
 {
@@ -22,21 +23,24 @@ class MedicTool extends BaseModel
         'name' => 'string'
     ];
 
-    protected static function booted(): void{
+    protected static function booted(): void
+    {
         parent::booted();
-        static::creating(function($query){
-            if (!isset($query->medictool_code)){
-                $query->medictool_code = static::hasEncoding('MEDICTOOL_CODE'); 
+        static::creating(function ($query) {
+            if (!isset($query->medictool_code)) {
+                $query->medictool_code = static::hasEncoding('MEDICTOOL_CODE');
             }
             if (!isset($query->status)) $query->status = Status::ACTIVE->value;
         });
     }
 
-    public function toViewApi(){
+    public function toViewApi()
+    {
         return new ViewMedicTool($this);
     }
 
-    public function toShowApi(){
+    public function toShowApi()
+    {
         return new ShowMedicTool($this);
     }
 }
