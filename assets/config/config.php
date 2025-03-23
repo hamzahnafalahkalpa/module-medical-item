@@ -6,11 +6,18 @@ use Hanafalah\ModuleMedicalItem\{
 };
 
 return [
-    'contracts' => [
-        'medical_item'        => Contracts\MedicalItem::class,
-        'medicine'            => Contracts\Medicine::class,
-        'medic_tool'          => Contracts\MedicTool::class,
-        'module_medical_item' => Contracts\ModuleMedicalItem::class,
+    'app' => [
+        'contracts' => [
+            //ADD YOUR CONTRACTS HERE
+            'medical_item'        => Contracts\MedicalItem::class,
+            'medicine'            => Contracts\Medicine::class,
+            'medic_tool'          => Contracts\MedicTool::class,
+            'module_medical_item' => Contracts\ModuleMedicalItem::class,
+        ],
+    ],
+    'libs' => [
+        'model' => 'Models',
+        'contract' => 'Contracts'
     ],
     'database' => [
         'models' => [
