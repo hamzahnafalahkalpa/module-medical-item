@@ -2,22 +2,31 @@
 
 use Hanafalah\ModuleMedicalItem\{
     Models as ModuleMedicalItem,
-    Contracts
+    Contracts,
+    Commands
 };
 
 return [
-    'contracts' => [
-        'medical_item'        => Contracts\MedicalItem::class,
-        'medicine'            => Contracts\Medicine::class,
-        'medic_tool'          => Contracts\MedicTool::class,
-        'module_medical_item' => Contracts\ModuleMedicalItem::class,
+    'namespace' => 'Hanafalah\\ModuleMedicalItem',
+    'app' => [
+        'contracts' => [
+            //ADD YOUR CONTRACTS HERE
+        ]
+    ],
+    'libs' => [
+        'model' => 'Models',
+        'contract' => 'Contracts',
+        'schema' => 'Schemas',
+        'database' => 'Database',
+        'data' => 'Data',
+        'resource' => 'Resources',
+        'migration' => '../assets/database/migrations'
     ],
     'database' => [
         'models' => [
-            'MedicalItem'         => ModuleMedicalItem\MedicalItem::class,
-            'Medicine'            => ModuleMedicalItem\Medicine::class,
-            'MedicTool'           => ModuleMedicalItem\MedicTool::class,
-            'MedicalUnitReceived' => ModuleMedicalItem\MedicalUnitReceived::class
         ]
     ],
+    'commands' => [
+        Commands\InstallMakeCommand::class
+    ]
 ];
