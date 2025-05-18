@@ -34,13 +34,13 @@ class MedicTool extends BaseModel
         });
     }
 
-    public function toViewApi()
+    public function getViewResource()
     {
-        return new ViewMedicTool($this);
+        return ViewMedicTool::class;
     }
 
-    public function toShowApi()
+    public function getShowResource()
     {
-        return new ShowMedicTool($this);
+        return ShowMedicTool::class;
     }
 }

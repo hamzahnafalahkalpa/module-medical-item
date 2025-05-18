@@ -60,14 +60,14 @@ class Medicine extends BaseModel
         });
     }
 
-    public function toViewApi()
+    public function getViewResource()
     {
-        return new ViewMedicine($this);
+        return ViewMedicine::class;
     }
 
-    public function toShowApi()
+    public function getShowResource()
     {
-        return new ShowMedicine($this);
+        return ShowMedicine::class;
     }
 
     public function scopeIsNarcotic($builder)
