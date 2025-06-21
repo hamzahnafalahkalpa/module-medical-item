@@ -9,46 +9,77 @@ use Hanafalah\ModuleMedicalItem\Resources\MedicalItem\ViewMedicalItem;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Hanafalah\LaravelHasProps\Concerns\HasProps;
 use Hanafalah\LaravelSupport\Models\BaseModel;
+use Illuminate\Database\Eloquent\Concerns\HasUlids;
 
 class MedicalItem extends BaseModel
 {
-    use SoftDeletes, HasProps, HasItem;
+    use HasUlids, SoftDeletes, HasProps, HasItem;
+
+    public $incrementing = false;
+    protected $keyType   = 'string';
+    protected $primaryKey = 'id';
 
     //is_pom => POM (precription only medicine)
-    public $list = ['id', 'name', 'registration_no', 'reference_type', 'reference_id', 'is_pom', 'status', 'props'];
+    public $list = [
+        'id', 'name', 'registration_no', 
+        'medical_item_code',
+        'reference_type', 'reference_id', 
+        'is_pom', 'status', 'props'
+    ];
     public $show = [];
 
     protected $casts = [
         'name' => 'string'
     ];
 
-    protected static function booted(): void
-    {
+    protected static function booted(): void{
         parent::booted();
         static::creating(function ($query) {
-            if (!isset($query->medical_item_code)) {
-                $query->medical_item_code = static::hasEncoding('MEDICAL_ITEM_CODE');
-            }
-            if (!isset($query->status)) $query->status = Status::ACTIVE->value;
+            $query->medical_item_code ??= static::hasEncoding('MEDICAL_ITEM_CODE');
+            $query->status ??= Status::ACTIVE->value;
         });
     }
 
-    public function getViewResource()
-    {
-        return ViewMedicalItem::class;
+    public function viewUsingRelation(): array{
+        return [
+            'item.itemStock',
+            'reference' => function ($query) {
+                $query->morphWith([
+                    $this->MedicineModelInstance() => ['dosageForm', 'sellingCategory'],
+                ]);
+            }
+        ];
     }
 
-    public function getShowResource()
-    {
-        return ShowMedicalItem::class;
+    public function showUsingRelation(): array{
+        return [
+            'item' => function ($query) {
+                $query->with(['compositions', 'itemStock' => function ($query) {
+                    $query->whereNull('funding_id')
+                        ->with([
+                            'childs.stockBatches.batch',
+                            'stockBatches.batch'
+                        ]);
+                }]);
+            },
+            'reference' => function ($query) {
+                $query->morphWith([
+                    $this->MedicineModelInstance() => [
+                        'dosageForm',
+                        'usageLocation',
+                        'therapeuticClass',
+                        'usageRoute',
+                        'packageForm',
+                        'sellingForm'
+                    ],
+                    $this->MedicToolModelInstance() => []
+                ]);
+            }
+        ];
     }
 
-    public function reference()
-    {
-        return $this->morphTo();
-    }
-    public function packaging()
-    {
-        return $this->belongsToModel('ItemStuff');
-    }
+    public function getViewResource(){return ViewMedicalItem::class;}
+    public function getShowResource(){return ShowMedicalItem::class;}
+    public function reference(){return $this->morphTo();}
+    public function packaging(){return $this->belongsToModel('ItemStuff');}
 }

@@ -2,45 +2,30 @@
 
 namespace Hanafalah\ModuleMedicalItem\Schemas;
 
-use Hanafalah\ModuleMedicalItem\Contracts;
-use Hanafalah\ModuleMedicalItem\Resources\MedicTool\{
-    ShowMedicTool,
-    ViewMedicTool
-};
-use Illuminate\Database\Eloquent\Builder;
+use Hanafalah\ModuleMedicalItem\Contracts\Data\MedicToolData;
+use Hanafalah\ModuleMedicalItem\Contracts\Schemas\MedicTool as SchemasMedicTool;
 use Illuminate\Database\Eloquent\Model;
 
-class MedicTool extends MedicalItem implements Contracts\MedicTool
+class MedicTool extends MedicalItem implements SchemasMedicTool
 {
-    protected array $__guard   = ['id'];
-    protected array $__add     = ['name', 'status'];
     protected string $__entity = 'MedicTool';
-    public static $medictool_model;
+    public static $medic_tool_model;
 
-    protected array $__resources = [
-        'view' => ViewMedicTool::class,
-        'show' => ShowMedicTool::class
-    ];
-
-
-
-    public function prepareStoreMedicTool(?array $attributes = null): Model
-    {
-        $attributes ??= request()->all();
-
-        $medicTool = $this->medicTool()->updateOrCreate([
-            'id'   => $attributes['id'] ?? null
-        ], [
-            'name' => $attributes['name'],
-        ]);
-
-        static::$medictool_model = $medicTool;
-        return $medicTool;
+    public function prepareStore(MedicToolData $medicine_dto){
+        $medicine = $this->prepareStoreMedicine($medicine_dto);
+        return $medicine;
     }
 
-    public function medicTool(mixed $conditionals = null): Builder
+    public function prepareStoreMedicTool(MedicToolData $medic_tool_dto): Model
     {
-        $this->booting();
-        return $this->MedicToolModel()->withParameters()->conditionals($conditionals);
+        $medic_tool = $this->usingEntity()->updateOrCreate([
+            'id'   => $medic_tool_dto->id ?? null
+        ], [
+            'name' => $medic_tool_dto->name,
+        ]);
+        $this->fillingProps($medic_tool,$medic_tool_dto->props);
+        $medic_tool->save();
+        static::$medic_tool_model = $medic_tool;
+        return $medic_tool;
     }
 }

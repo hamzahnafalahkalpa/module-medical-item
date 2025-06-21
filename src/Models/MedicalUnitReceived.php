@@ -2,7 +2,7 @@
 
 namespace Hanafalah\ModuleMedicalItem\Models;
 
-use Projects\Klinik\Models\Item\ItemStuff;
+use Hanafalah\ModuleItem\Models\ItemStuff;
 
 class MedicalUnitReceived extends ItemStuff
 {
