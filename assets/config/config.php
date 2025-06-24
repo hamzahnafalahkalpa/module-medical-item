@@ -23,8 +23,11 @@ return [
         'medicine' => [
             'schema' => 'Medicine',
         ],
-        'medoc_tool' => [
+        'medic_tool' => [
             'schema' => 'MedicTool'
+        ],
+        'reagent' => [
+            'schema' => 'Reagent'
         ]
     ]
 ];

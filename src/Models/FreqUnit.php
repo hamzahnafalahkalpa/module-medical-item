@@ -16,7 +16,6 @@ class FreqUnit extends ItemStuff
         return ViewFreqUnit::class;
     }
 
-
     public function getShowResource(){
         return ShowFreqUnit::class;
     }

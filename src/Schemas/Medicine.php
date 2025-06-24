@@ -16,8 +16,7 @@ class Medicine extends MedicalItem implements SchemasMedicine
         return $medicine;
     }
 
-    public function prepareStoreMedicine(MedicineData $medicine_dto): Model
-    {
+    public function prepareStoreMedicine(MedicineData $medicine_dto): Model{
         $medicine = $this->usingEntity()->updateOrCreate([
             'id' => $medicine_dto->id ?? null
         ], [
@@ -31,16 +30,10 @@ class Medicine extends MedicalItem implements SchemasMedicine
             'usage_route_id'       => $medicine_dto->usage_route_id ?? null,
             'therapeutic_class_id' => $medicine_dto->therapeutic_class_id ?? null,
             'dosage_form_id'       => $medicine_dto->dosage_form_id ?? null,
-            'selling_form_id'      => $medicine_dto->selling_form_id ?? null,
             'package_form_id'      => $medicine_dto->package_form_id ?? null,
         ]);
         $this->fillingProps($medicine,$medicine_dto->props);
         $medicine->save();
-        static::$medicine_model = $medicine;
-        return $medicine;
-    }
-
-    public function onCreated(){
-
+        return static::$medicine_model = $medicine;
     }
 }

@@ -4,6 +4,7 @@ namespace Hanafalah\ModuleMedicalItem\Resources\MedicalItem;
 
 use Illuminate\Http\Request;
 use Hanafalah\LaravelSupport\Resources\ApiResource;
+use Illuminate\Support\Str;
 
 class ViewMedicalItem extends ApiResource
 {
@@ -19,20 +20,11 @@ class ViewMedicalItem extends ApiResource
             'id'                    => $this->id,
             'registration_no'       => $this->registration_no,
             'reference_type'        => $this->reference_type,
-            'reference'             => $this->relationValidation('reference', function () {
-                return $this->reference->toViewApi();
-            }),
-            'item'                  => $this->relationValidation('item', function () {
-                return $this->item->toViewApi();
-            }),
+            'reference'             => $this->{'prop_'.Str::snake($this->reference_type)},
+            'item'                  => $this->prop_item,
             'is_pom'                => $this->is_pom,
             'status'                => $this->status,
         ];
-        $props = $this->getPropsData();
-        foreach ($props as $key => $prop) {
-            $arr[$key] = $prop;
-        }
-
         return $arr;
     }
 }

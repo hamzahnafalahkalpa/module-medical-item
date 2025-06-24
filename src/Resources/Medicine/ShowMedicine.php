@@ -21,25 +21,22 @@ class ShowMedicine extends ViewMedicine
             'is_antibiotic'     => $this->is_antibiotic == 1 ? true : false,
             'is_high_alert'     => $this->is_high_alert == 1 ? true : false,
             'is_narcotic'       => $this->is_narcotic == 1 ? true : false,
-            'usage_location'    => $this->relationValidation('usageLocation', function () {
-                return $this->usageLocation->toViewApi();
-            }),
-            'usage_route'       => $this->relationValidation('usageRoute', function () {
-                return $this->usageRoute->toViewApi();
-            }),
-            'therapeutic_class' => $this->relationValidation('therapeuticClass', function () {
-                return new ViewItemStuff($this->therapeuticClass);
-                return $this->therapeuticClass->toViewApi();
-            }),
-            'dosage_form' => $this->relationValidation('dosageForm', function () {
-                return $this->dosageForm->toViewApi();
-            }),
-            'package_category' => $this->relationValidation('packageCategory', function () {
-                return $this->packageCategory->toViewApi();
-            }),
-            'selling_category' => $this->relationValidation('sellingCategory', function () {
-                return $this->sellingCategory->toViewApi();
-            })
+            // 'usage_location'    => $this->relationValidation('usageLocation', function () {
+            //     return $this->usageLocation->toViewApi();
+            // }),
+            // 'usage_route'       => $this->relationValidation('usageRoute', function () {
+            //     return $this->usageRoute->toViewApi();
+            // }),
+            // 'therapeutic_class' => $this->relationValidation('therapeuticClass', function () {
+            //     return new ViewItemStuff($this->therapeuticClass);
+            //     return $this->therapeuticClass->toViewApi();
+            // }),
+            // 'dosage_form' => $this->relationValidation('dosageForm', function () {
+            //     return $this->dosageForm->toViewApi();
+            // }),
+            // 'package_form' => $this->relationValidation('packageForm', function () {
+            //     return $this->packageForm->toViewApi();
+            // })
         ];
         $arr = $this->mergeArray(parent::toArray($request), $arr);
 

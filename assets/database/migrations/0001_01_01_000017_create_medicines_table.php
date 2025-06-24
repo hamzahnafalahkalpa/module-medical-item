@@ -4,9 +4,12 @@ use Hanafalah\ModuleMedicalItem\Models\Medicine;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Hanafalah\ModuleItem\Models\{
-      ItemStuff
-};
+use Hanafalah\ModuleMedicalItem\Models\DosageForm;
+use Hanafalah\ModuleMedicalItem\Models\PackageForm;
+use Hanafalah\ModuleMedicalItem\Models\TherapeuticClass;
+use Hanafalah\ModuleMedicalItem\Models\Trademark;
+use Hanafalah\ModuleMedicalItem\Models\UsageLocation;
+use Hanafalah\ModuleMedicalItem\Models\UsageRoute;
 
 return new class extends Migration
 {
@@ -29,9 +32,14 @@ return new class extends Migration
             $table_name = $this->__table->getTable();
             if (!$this->isTableExists()) {
                   Schema::create($table_name, function (Blueprint $table) {
-                        $itemStuff = app(config('database.models.ItemStuff', ItemStuff::class));
+                        $dosageForm       = app(config('database.models.DosageForm', DosageForm::class));
+                        $usageLocation    = app(config('database.models.UsageLocation', UsageLocation::class));
+                        $usageRoute       = app(config('database.models.UsageRoute', UsageRoute::class));
+                        $therapeuticClass = app(config('database.models.TherapeuticClass', TherapeuticClass::class));
+                        $packageForm      = app(config('database.models.PackageForm', PackageForm::class));
+                        $trademark        = app(config('database.models.Trademark', Trademark::class));
 
-                        $table->id();
+                        $table->ulid('id')->primary();
                         $table->string('name');
                         $table->string('status')->nullable();
                         $table->string('acronym')->nullable();
@@ -40,28 +48,28 @@ return new class extends Migration
                         $table->boolean('is_high_alert')->default(false)->nullable(false);
                         $table->boolean('is_narcotic')->default(false)->nullable(false);
 
-                        $table->foreignIdFor($itemStuff::class, 'usage_location_id')
-                              ->nullable()->index()->constrained($itemStuff->getTable(), $itemStuff->getKeyName())
+                        $table->foreignIdFor($usageLocation::class, 'usage_location_id')
+                              ->nullable()->index()->constrained($usageLocation->getTable(), $usageLocation->getKeyName())
                               ->cascadeOnUpdate()->nullOnDelete();
 
-                        $table->foreignIdFor($itemStuff::class, 'usage_route_id')
-                              ->nullable()->index()->constrained($itemStuff->getTable(), $itemStuff->getKeyName())
+                        $table->foreignIdFor($usageRoute::class, 'usage_route_id')
+                              ->nullable()->index()->constrained($usageRoute->getTable(), $usageRoute->getKeyName())
                               ->cascadeOnUpdate()->nullOnDelete();
 
-                        $table->foreignIdFor($itemStuff::class, 'therapeutic_class_id')
-                              ->nullable()->index()->constrained($itemStuff->getTable(), $itemStuff->getKeyName())
+                        $table->foreignIdFor($therapeuticClass::class, 'therapeutic_class_id')
+                              ->nullable()->index()->constrained($therapeuticClass->getTable(), $therapeuticClass->getKeyName())
                               ->cascadeOnUpdate()->nullOnDelete();
 
-                        $table->foreignIdFor($itemStuff::class, 'dosage_form_id')
-                              ->nullable()->index()->constrained($itemStuff->getTable(), $itemStuff->getKeyName())
+                        $table->foreignIdFor($dosageForm::class, 'dosage_form_id')
+                              ->nullable()->index()->constrained($dosageForm->getTable(), $dosageForm->getKeyName())
                               ->cascadeOnUpdate()->nullOnDelete();
 
-                        $table->foreignIdFor($itemStuff::class, 'package_category_id')
-                              ->nullable()->index()->constrained($itemStuff->getTable(), $itemStuff->getKeyName())
+                        $table->foreignIdFor($packageForm::class, 'package_form_id')
+                              ->nullable()->index()->constrained($packageForm->getTable(), $packageForm->getKeyName())
                               ->cascadeOnUpdate()->nullOnDelete();
 
-                        $table->foreignIdFor($itemStuff::class, 'selling_category_id')
-                              ->nullable()->index()->constrained($itemStuff->getTable(), $itemStuff->getKeyName())
+                        $table->foreignIdFor($trademark::class, 'trademark_id')
+                              ->nullable()->index()->constrained($trademark->getTable(), $trademark->getKeyName())
                               ->cascadeOnUpdate()->nullOnDelete();
 
                         $table->json('props')->nullable();

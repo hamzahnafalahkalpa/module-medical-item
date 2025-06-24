@@ -4,6 +4,7 @@ namespace Hanafalah\ModuleMedicalItem\Data;
 
 use Hanafalah\LaravelSupport\Concerns\Support\HasRequestData;
 use Hanafalah\LaravelSupport\Supports\Data;
+use Hanafalah\ModuleItem\Contracts\Data\ItemData;
 use Hanafalah\ModuleMedicalItem\Contracts\Data\MedicalItemData as DataMedicalItemData;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\MapName;
@@ -38,7 +39,7 @@ class MedicalItemData extends Data implements DataMedicalItemData{
 
     #[MapInputName('reference')]
     #[MapName('reference')]
-    public array|object $reference;
+    public object|array $reference;
 
     #[MapInputName('is_pom')]
     #[MapName('is_pom')]
@@ -48,12 +49,19 @@ class MedicalItemData extends Data implements DataMedicalItemData{
     #[MapName('status')]
     public ?string $status = null;
 
+    #[MapInputName('item')]
+    #[MapName('item')]
+    public ItemData $item;
+
     #[MapInputName('props')]
     #[MapName('props')]
     public ?array $props = null;
 
     public static function before(array &$attributes){
         $new = static::new();
+        $attributes['reference']['name'] = $attributes['name'];
+        $attributes['item']['name']      = $attributes['name'];
+        $attributes['is_pom']          ??= false;
         if (isset($attributes['id'])){
             $medical_item_model   = $new->MedicalItemModel()->with('reference')->findOrFail($attributes['id']);
             $attributes['reference_id']   = $reference['id'] = $medical_item_model->reference_id;

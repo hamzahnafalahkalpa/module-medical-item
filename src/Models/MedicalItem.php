@@ -22,22 +22,27 @@ class MedicalItem extends BaseModel
     //is_pom => POM (precription only medicine)
     public $list = [
         'id', 'name', 'registration_no', 
-        'medical_item_code',
-        'reference_type', 'reference_id', 
+        'medical_item_code', 'reference_type', 'reference_id', 
         'is_pom', 'status', 'props'
     ];
     public $show = [];
 
     protected $casts = [
-        'name' => 'string'
+        'name' => 'string',
+        'reference_type' => 'string'
     ];
 
     protected static function booted(): void{
         parent::booted();
         static::creating(function ($query) {
             $query->medical_item_code ??= static::hasEncoding('MEDICAL_ITEM_CODE');
-            $query->status ??= Status::ACTIVE->value;
+            $query->status ??= self::getStatus('ACTIVE');
         });
+    }
+
+
+    public static function getStatus(string $status){
+        return Status::from($status)->value;
     }
 
     public function viewUsingRelation(): array{
@@ -45,7 +50,7 @@ class MedicalItem extends BaseModel
             'item.itemStock',
             'reference' => function ($query) {
                 $query->morphWith([
-                    $this->MedicineModelInstance() => ['dosageForm', 'sellingCategory'],
+                    $this->MedicineModelInstance() => ['dosageForm'],
                 ]);
             }
         ];
@@ -69,8 +74,7 @@ class MedicalItem extends BaseModel
                         'usageLocation',
                         'therapeuticClass',
                         'usageRoute',
-                        'packageForm',
-                        'sellingForm'
+                        'packageForm'
                     ],
                     $this->MedicToolModelInstance() => []
                 ]);

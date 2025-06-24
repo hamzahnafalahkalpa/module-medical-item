@@ -33,14 +33,13 @@ class MedicalItem extends SchemaItem implements SchemasMedicalItem
         if (isset($reference_schema)) {
             $schema_reference = $this->schemaContract(Str::studly($reference_schema));
             $reference = $schema_reference->prepareStore($medical_item_dto->reference);
+            $medical_item_dto->reference_id = $reference->getKey();
         }
-        
-        $add = [
+        $add = [    
             'registration_no'   => $medical_item_dto->registration_no,
             'name'              => $medical_item_dto->name,
-            'status'            => $medical_item_dto->status,
             'is_pom'            => $medical_item_dto->is_pom,
-            'medical_item_code' => $medical_item_dto->medical_item_dto
+            'medical_item_code' => $medical_item_dto->medical_item_code 
         ];
         $guard = isset($medical_item_dto->id) 
             ? ['id' => $medical_item_dto->id]
@@ -50,11 +49,14 @@ class MedicalItem extends SchemaItem implements SchemasMedicalItem
             ];
         $medical_item = $this->usingEntity()->updateOrCreate($guard, $add);
         $medical_item->refresh();
-
         if (isset($reference_schema) && method_exists($schema_reference, 'onCreated')) {
             $schema_reference->onCreated($medical_item, $reference, $medical_item_dto);
         }
         if (isset($reference)) $medical_item->sync($reference,$reference->toViewApi()->resolve());
+        $item = $medical_item->item;
+        $medical_item->sync($item, $item->toViewApi()->resolve());
+        $this->fillingProps($medical_item,$medical_item_dto->props);
+        $medical_item->save();
         return $medical_item;
     }
 

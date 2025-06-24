@@ -11,13 +11,12 @@ class MedicTool extends MedicalItem implements SchemasMedicTool
     protected string $__entity = 'MedicTool';
     public static $medic_tool_model;
 
-    public function prepareStore(MedicToolData $medicine_dto){
-        $medicine = $this->prepareStoreMedicine($medicine_dto);
-        return $medicine;
+    public function prepareStore(MedicToolData $medic_tool_dto){
+        $medic_tool = $this->prepareStoreMedicTool($medic_tool_dto);
+        return $medic_tool;
     }
 
-    public function prepareStoreMedicTool(MedicToolData $medic_tool_dto): Model
-    {
+    public function prepareStoreMedicTool(MedicToolData $medic_tool_dto): Model{
         $medic_tool = $this->usingEntity()->updateOrCreate([
             'id'   => $medic_tool_dto->id ?? null
         ], [
@@ -25,7 +24,6 @@ class MedicTool extends MedicalItem implements SchemasMedicTool
         ]);
         $this->fillingProps($medic_tool,$medic_tool_dto->props);
         $medic_tool->save();
-        static::$medic_tool_model = $medic_tool;
-        return $medic_tool;
+        return static::$medic_tool_model = $medic_tool;
     }
 }
