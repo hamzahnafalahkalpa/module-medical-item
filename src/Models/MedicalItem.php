@@ -23,7 +23,7 @@ class MedicalItem extends BaseModel
     public $list = [
         'id', 'name', 'registration_no', 
         'medical_item_code', 'reference_type', 'reference_id', 
-        'is_pom', 'status', 'props'
+        'is_pom', 'props'
     ];
     public $show = [];
 
@@ -36,13 +36,7 @@ class MedicalItem extends BaseModel
         parent::booted();
         static::creating(function ($query) {
             $query->medical_item_code ??= static::hasEncoding('MEDICAL_ITEM_CODE');
-            $query->status ??= self::getStatus('ACTIVE');
         });
-    }
-
-
-    public static function getStatus(string $status){
-        return Status::from($status)->value;
     }
 
     public function viewUsingRelation(): array{

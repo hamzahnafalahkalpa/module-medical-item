@@ -30,7 +30,6 @@ return new class extends Migration
                 $table->string('medical_item_code', 50)->nullable();
                 $table->string('registration_no', 100)->nullable();
                 $table->string('name');
-                $table->string('status', 60)->default(0);
                 $table->string('reference_id', 36);
                 $table->string('reference_type', 50);
                 $table->boolean('is_pom')->nullable(false)->default(false);

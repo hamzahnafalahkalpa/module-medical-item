@@ -31,7 +31,6 @@ class MedicTool extends BaseModel
         parent::booted();
         static::creating(function ($query) {
             $query->medic_tool_code ??= static::hasEncoding('MEDICTOOL_CODE');
-            $query->status ??= Status::ACTIVE->value;
         });
     }
     public function getViewResource(){return ViewMedicTool::class;}

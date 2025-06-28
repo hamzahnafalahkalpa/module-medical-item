@@ -6,6 +6,7 @@ use Hanafalah\LaravelSupport\Concerns\Support\HasRequestData;
 use Hanafalah\LaravelSupport\Supports\Data;
 use Hanafalah\ModuleItem\Contracts\Data\ItemData;
 use Hanafalah\ModuleMedicalItem\Contracts\Data\MedicalItemData as DataMedicalItemData;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\MapName;
 use Illuminate\Support\Str;
@@ -40,6 +41,10 @@ class MedicalItemData extends Data implements DataMedicalItemData{
     #[MapInputName('reference')]
     #[MapName('reference')]
     public object|array $reference;
+
+    #[MapInputName('reference_model')]
+    #[MapName('reference_model')]
+    public ?Model $reference_model = null;
 
     #[MapInputName('is_pom')]
     #[MapName('is_pom')]

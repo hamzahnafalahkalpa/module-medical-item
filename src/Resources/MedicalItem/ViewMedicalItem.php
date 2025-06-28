@@ -22,8 +22,7 @@ class ViewMedicalItem extends ApiResource
             'reference_type'        => $this->reference_type,
             'reference'             => $this->{'prop_'.Str::snake($this->reference_type)},
             'item'                  => $this->prop_item,
-            'is_pom'                => $this->is_pom,
-            'status'                => $this->status,
+            'is_pom'                => $this->is_pom
         ];
         return $arr;
     }

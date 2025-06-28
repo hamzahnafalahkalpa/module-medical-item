@@ -56,7 +56,6 @@ class Medicine extends BaseModel
         parent::booted();
         static::creating(function ($query) {
             $query->medicine_code ??= static::hasEncoding('MEDICINE_CODE');
-            $query->status ??= Status::ACTIVE->value;
         });
     }
 

@@ -4,14 +4,15 @@ namespace Hanafalah\ModuleMedicalItem\Schemas;
 
 use Hanafalah\ModuleMedicalItem\Contracts\Data\MedicineData;
 use Hanafalah\ModuleMedicalItem\Contracts\Schemas\Medicine as SchemasMedicine;
+use Hanafalah\ModuleMedicalItem\Supports\BaseModuleMedicalItem;
 use Illuminate\Database\Eloquent\Model;
 
-class Medicine extends MedicalItem implements SchemasMedicine
+class Medicine extends BaseModuleMedicalItem implements SchemasMedicine
 {
     protected string $__entity = 'Medicine';
     public static $medicine_model;
 
-    public function prepareStore(MedicineData $medicine_dto){
+    public function prepareStore(MedicineData $medicine_dto): Model{
         $medicine = $this->prepareStoreMedicine($medicine_dto);
         return $medicine;
     }

@@ -2,14 +2,14 @@
 
 namespace Hanafalah\ModuleMedicalItem\Schemas;
 
-use Hanafalah\ModuleItem\Schemas\Item as SchemaItem;
 use Hanafalah\ModuleMedicalItem\Contracts\Data\MedicalItemData;
 use Hanafalah\ModuleMedicalItem\Contracts\Schemas\MedicalItem as SchemasMedicalItem;
+use Hanafalah\ModuleMedicalItem\Supports\BaseModuleMedicalItem;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class MedicalItem extends SchemaItem implements SchemasMedicalItem
+class MedicalItem extends BaseModuleMedicalItem implements SchemasMedicalItem
 {
     protected string $__entity = 'MedicalItem';
     public static $medical_item_model;
@@ -34,7 +34,9 @@ class MedicalItem extends SchemaItem implements SchemasMedicalItem
             $schema_reference = $this->schemaContract(Str::studly($reference_schema));
             $reference = $schema_reference->prepareStore($medical_item_dto->reference);
             $medical_item_dto->reference_id = $reference->getKey();
+            $medical_item_dto->props['prop_reference'] = $reference->toViewApi()->resolve();
         }
+
         $add = [    
             'registration_no'   => $medical_item_dto->registration_no,
             'name'              => $medical_item_dto->name,
@@ -52,9 +54,12 @@ class MedicalItem extends SchemaItem implements SchemasMedicalItem
         if (isset($reference_schema) && method_exists($schema_reference, 'onCreated')) {
             $schema_reference->onCreated($medical_item, $reference, $medical_item_dto);
         }
-        if (isset($reference)) $medical_item->sync($reference,$reference->toViewApi()->resolve());
-        $item = $medical_item->item;
-        $medical_item->sync($item, $item->toViewApi()->resolve());
+
+        if (isset($medical_item_dto->item)){
+            $medical_item_dto->item->reference_model = $medical_item;
+            $item = $this->schemaContract('item')->prepareStoreItem($medical_item_dto->item);
+            $medical_item_dto->props['prop_item'] = $item->toViewApi()->resolve();
+        }
         $this->fillingProps($medical_item,$medical_item_dto->props);
         $medical_item->save();
         return $medical_item;

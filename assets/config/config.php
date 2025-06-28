@@ -7,12 +7,22 @@ return [
         ],
     ],
     'libs' => [
+        'provider' => 'Providers',
+        'concern' => 'Concerns',
+        'command' => 'Commands',
+        'route' => 'Routes',
+        'seeder' => 'Database/Seeders',
+        'support' => 'Supports',
+        'view' => 'Views',
+        'facade' => 'Facades',
+        'config' => 'assets/config',
+        'import' => 'Imports',
+        'data' => 'Data',
+        'resource' => 'Resources',
         'model' => 'Models',
         'contract' => 'Contracts',
         'schema' => 'Schemas',
         'database' => 'Database',
-        'data' => 'Data',
-        'resource' => 'Resources',
         'migration' => '../assets/database/migrations',
     ],
     'database' => [
@@ -28,6 +38,17 @@ return [
         ],
         'reagent' => [
             'schema' => 'Reagent'
+        ]
+    ],
+    'packages' => [
+        'module-item' => [
+            'config' => [
+                'inventory_types' => [
+                    'healthcare_equipment' => [
+                        'schema' => 'HealthcareEquipment'
+                    ]
+                ]
+            ]
         ]
     ]
 ];
