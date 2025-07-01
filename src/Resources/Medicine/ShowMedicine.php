@@ -22,20 +22,20 @@ class ShowMedicine extends ViewMedicine
             'is_high_alert'     => $this->is_high_alert == 1 ? true : false,
             'is_narcotic'       => $this->is_narcotic == 1 ? true : false,
             // 'usage_location'    => $this->relationValidation('usageLocation', function () {
-            //     return $this->usageLocation->toViewApi();
+            //     return $this->usageLocation->toViewApi()->resolve();
             // }),
             // 'usage_route'       => $this->relationValidation('usageRoute', function () {
-            //     return $this->usageRoute->toViewApi();
+            //     return $this->usageRoute->toViewApi()->resolve();
             // }),
             // 'therapeutic_class' => $this->relationValidation('therapeuticClass', function () {
             //     return new ViewItemStuff($this->therapeuticClass);
-            //     return $this->therapeuticClass->toViewApi();
+            //     return $this->therapeuticClass->toViewApi()->resolve();
             // }),
             // 'dosage_form' => $this->relationValidation('dosageForm', function () {
-            //     return $this->dosageForm->toViewApi();
+            //     return $this->dosageForm->toViewApi()->resolve();
             // }),
             // 'package_form' => $this->relationValidation('packageForm', function () {
-            //     return $this->packageForm->toViewApi();
+            //     return $this->packageForm->toViewApi()->resolve();
             // })
         ];
         $arr = $this->mergeArray(parent::toArray($request), $arr);

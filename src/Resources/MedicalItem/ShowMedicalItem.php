@@ -17,10 +17,10 @@ class ShowMedicalItem extends ViewMedicalItem
     {
         $arr = [
             'reference' => $this->relationValidation('reference', function () {
-                return $this->reference->toShowApi();
+                return $this->reference->toShowApi()->resolve();
             }),
             'item'      => $this->relationValidation('item', function () {
-                return $this->item->toShowApi();
+                return $this->item->toShowApi()->resolve();
             })
         ];
         $arr = $this->mergeArray(parent::toArray($request), $arr);
