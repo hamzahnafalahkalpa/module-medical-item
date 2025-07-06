@@ -3,7 +3,6 @@
 namespace Hanafalah\ModuleMedicalItem\Models;
 
 use Hanafalah\ModuleItem\Concerns\HasItem;
-use Hanafalah\ModuleMedicalItem\Enums\Medical\Status;
 use Hanafalah\ModuleMedicalItem\Resources\MedicalItem\ShowMedicalItem;
 use Hanafalah\ModuleMedicalItem\Resources\MedicalItem\ViewMedicalItem;
 use Illuminate\Database\Eloquent\SoftDeletes;
