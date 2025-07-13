@@ -1,54 +1,32 @@
 <?php
 
+use Hanafalah\ModuleMedicalItem\{
+    Models as ModuleMedicalItem,
+    Contracts,
+    Commands
+};
+
 return [
-    'namespace' => 'Hanafalah\ModuleMedicalItem',
+    'namespace' => 'Hanafalah\\ModuleMedicalItem',
     'app' => [
         'contracts' => [
-        ],
+            //ADD YOUR CONTRACTS HERE
+        ]
     ],
     'libs' => [
-        'provider' => 'Providers',
-        'concern' => 'Concerns',
-        'command' => 'Commands',
-        'route' => 'Routes',
-        'seeder' => 'Database/Seeders',
-        'support' => 'Supports',
-        'view' => 'Views',
-        'facade' => 'Facades',
-        'config' => 'assets/config',
-        'import' => 'Imports',
-        'data' => 'Data',
-        'resource' => 'Resources',
         'model' => 'Models',
         'contract' => 'Contracts',
         'schema' => 'Schemas',
         'database' => 'Database',
-        'migration' => '../assets/database/migrations',
+        'data' => 'Data',
+        'resource' => 'Resources',
+        'migration' => '../assets/database/migrations'
     ],
     'database' => [
         'models' => [
         ]
     ],
-    'medical_item_types' => [
-        'medicine' => [
-            'schema' => 'Medicine',
-        ],
-        'medic_tool' => [
-            'schema' => 'MedicTool'
-        ],
-        'reagent' => [
-            'schema' => 'Reagent'
-        ]
-    ],
-    'packages' => [
-        'module-item' => [
-            'config' => [
-                'inventory_types' => [
-                    'healthcare_equipment' => [
-                        'schema' => 'HealthcareEquipment'
-                    ]
-                ]
-            ]
-        ]
+    'commands' => [
+        Commands\InstallMakeCommand::class
     ]
 ];
