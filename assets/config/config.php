@@ -15,6 +15,7 @@ return [
     ],
     'libs' => [
         'model' => 'Models',
+        'config' => 'assets/config',
         'contract' => 'Contracts',
         'schema' => 'Schemas',
         'database' => 'Database',
