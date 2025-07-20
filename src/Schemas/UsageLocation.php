@@ -8,7 +8,7 @@ use Hanafalah\ModuleMedicalItem\Contracts\Schemas\UsageLocation as ContractsUsag
 class UsageLocation extends ItemStuff implements ContractsUsageLocation
 {
     protected string $__entity = 'UsageLocation';
-    public static $usage_location_model;
+    public $usage_location_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [

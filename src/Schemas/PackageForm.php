@@ -8,7 +8,7 @@ use Hanafalah\ModuleMedicalItem\Contracts\Schemas\PackageForm as ContractsPackag
 class PackageForm extends ItemStuff implements ContractsPackageForm
 {
     protected string $__entity = 'PackageForm';
-    public static $package_form_model;
+    public $package_form_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [

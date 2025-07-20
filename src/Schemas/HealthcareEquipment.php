@@ -8,7 +8,7 @@ use Hanafalah\ModuleMedicalItem\Contracts\Schemas\HealthcareEquipment as Contrac
 class HealthcareEquipment extends InventoryItem implements ContractsHealthcareEquipment
 {
     protected string $__entity = 'HealthcareEquipment';
-    public static $healthcare_equipment_model;
+    public $healthcare_equipment_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [

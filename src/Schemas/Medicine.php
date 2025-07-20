@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Medicine extends BaseModuleMedicalItem implements SchemasMedicine
 {
     protected string $__entity = 'Medicine';
-    public static $medicine_model;
+    public $medicine_model;
 
     public function prepareStore(MedicineData $medicine_dto): Model{
         $medicine = $this->prepareStoreMedicine($medicine_dto);
@@ -35,6 +35,6 @@ class Medicine extends BaseModuleMedicalItem implements SchemasMedicine
         ]);
         $this->fillingProps($medicine,$medicine_dto->props);
         $medicine->save();
-        return static::$medicine_model = $medicine;
+        return $this->medicine_model = $medicine;
     }
 }

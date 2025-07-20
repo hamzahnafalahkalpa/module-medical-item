@@ -8,7 +8,7 @@ use Hanafalah\ModuleMedicalItem\Contracts\Schemas\MedicalNetUnit as ContractsMed
 class MedicalNetUnit extends ItemStuff implements ContractsMedicalNetUnit
 {
     protected string $__entity = 'MedicalNetUnit';
-    public static $medical_net_unit_model;
+    public $medical_net_unit_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [

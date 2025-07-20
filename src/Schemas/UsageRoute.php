@@ -8,7 +8,7 @@ use Hanafalah\ModuleMedicalItem\Contracts\Schemas\UsageRoute as ContractsUsageRo
 class UsageRoute extends ItemStuff implements ContractsUsageRoute
 {
     protected string $__entity = 'UsageRoute';
-    public static $usage_route_model;
+    public $usage_route_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [

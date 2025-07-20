@@ -8,7 +8,7 @@ use Hanafalah\ModuleMedicalItem\Contracts\Schemas\FreqUnit as ContractsFreqUnit;
 class FreqUnit extends ItemStuff implements ContractsFreqUnit
 {
     protected string $__entity = 'FreqUnit';
-    public static $freq_unit_model;
+    public $freq_unit_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [

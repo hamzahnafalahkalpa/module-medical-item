@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class MedicalItem extends BaseModuleMedicalItem implements SchemasMedicalItem
 {
     protected string $__entity = 'MedicalItem';
-    public static $medical_item_model;
+    public $medical_item_model;
 
     protected array $__cache = [
         'index' => [

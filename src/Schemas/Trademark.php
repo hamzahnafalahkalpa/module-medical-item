@@ -8,7 +8,7 @@ use Hanafalah\ModuleMedicalItem\Contracts\Schemas\Trademark as ContractsTrademar
 class Trademark extends ItemStuff implements ContractsTrademark
 {
     protected string $__entity = 'Trademark';
-    public static $trademark_model;
+    public $trademark_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [

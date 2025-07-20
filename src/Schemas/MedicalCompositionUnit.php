@@ -8,7 +8,7 @@ use Hanafalah\ModuleMedicalItem\Contracts\Schemas\MedicalCompositionUnit as Cont
 class MedicalCompositionUnit extends ItemStuff implements ContractsMedicalCompositionUnit
 {
     protected string $__entity = 'MedicalCompositionUnit';
-    public static $medical_composition_unit_model;
+    public $medical_composition_unit_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [

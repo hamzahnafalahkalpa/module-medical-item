@@ -8,7 +8,7 @@ use Hanafalah\ModuleMedicalItem\Contracts\Schemas\DosageForm as ContractsDosageF
 class DosageForm extends ItemStuff implements ContractsDosageForm
 {
     protected string $__entity = 'DosageForm';
-    public static $dosage_form_model;
+    public $dosage_form_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [

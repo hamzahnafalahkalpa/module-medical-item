@@ -8,7 +8,7 @@ use Hanafalah\ModuleMedicalItem\Contracts\Schemas\TherapeuticClass as ContractsT
 class TherapeuticClass extends ItemStuff implements ContractsTherapeuticClass
 {
     protected string $__entity = 'TherapeuticClass';
-    public static $therapeutic_class_model;
+    public $therapeutic_class_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [

@@ -12,7 +12,7 @@ use Hanafalah\ModuleMedicalItem\Contracts\Data\ReagentData;
 class Reagent extends BaseModuleMedicalItem implements ContractsReagent
 {
     protected string $__entity = 'Reagent';
-    public static $reagent_model;
+    public $reagent_model;
     //protected mixed $__order_by_created_at = false; //asc, desc, false
 
     protected array $__cache = [
@@ -41,6 +41,6 @@ class Reagent extends BaseModuleMedicalItem implements ContractsReagent
         $reagent = $this->usingEntity()->updateOrCreate(...$create);
         $this->fillingProps($reagent,$reagent_dto->props);
         $reagent->save();
-        return static::$reagent_model = $reagent;
+        return $this->reagent_model = $reagent;
     }
 }
