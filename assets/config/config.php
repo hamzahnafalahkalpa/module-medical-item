@@ -29,5 +29,16 @@ return [
     ],
     'commands' => [
         Commands\InstallMakeCommand::class
+    ],
+    'medical_item_types' => [
+        'medicine' => [
+            'schema' => 'Medicine'
+        ],
+        'medic-tool' => [
+            'schema' => 'MedicTool'
+        ],
+        'reagent' => [
+            'schema' => 'Reagent'
+        ]
     ]
 ];
