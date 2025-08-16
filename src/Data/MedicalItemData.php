@@ -73,11 +73,11 @@ class MedicalItemData extends Data implements DataMedicalItemData{
             $attributes['reference_type'] = $medical_item_model->reference_type;
         }else{
             $config_keys = array_keys(config('module-medical-item.medical_item_types'));
-            $keys        = array_intersect(array_keys(request()->all()),$config_keys);
+            $keys        = array_intersect(array_keys($attributes),$config_keys);
             $key         = array_shift($keys);
             $attributes['reference_type'] ??= request()->reference_type ?? $key;
-            $attributes['reference_type'] = Str::studly($attributes['reference_type']);
         }
+        $attributes['reference_type'] = Str::studly($attributes['reference_type']);
     }
 
     public static function after(self $data): self{

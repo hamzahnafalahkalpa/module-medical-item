@@ -34,7 +34,7 @@ return [
         'medicine' => [
             'schema' => 'Medicine'
         ],
-        'medic-tool' => [
+        'medic_tool' => [
             'schema' => 'MedicTool'
         ],
         'reagent' => [
