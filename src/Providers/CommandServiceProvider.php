@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Hanafalah\ModuleMedicalItem\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Hanafalah\ModulePayer\Commands as Commands;
+use Hanafalah\ModuleMedicalItem\Commands as Commands;
 
 class CommandServiceProvider extends ServiceProvider
 {
